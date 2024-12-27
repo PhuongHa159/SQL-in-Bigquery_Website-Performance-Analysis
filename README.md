@@ -15,15 +15,19 @@ Customer Retention Analysis: Calculated retention rates for successfully shipped
 Inventory Management: Examined stock level trends, month-over-month changes, and stock-to-sales ratios.
 Order Status Monitoring: Quantified pending orders and their value to assess fulfillment efficiency.
 ## IV. Exploring the Dataset
-### Query 01: calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
+### Query 01: Calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
 ```sql
-SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS month,
-  SUM(totals.visits) AS visits,
-  SUM(totals.pageviews) AS pageviews ,
-  SUM(totals.transactions) AS transactions 
+SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
+  SUM(totals.visits) AS Visits,
+  SUM(totals.pageviews) AS Pageviews ,
+  SUM(totals.transactions) AS Transactions 
  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
  WHERE _table_suffix BETWEEN '0101' AND '0331'
  GROUP BY month
   ORDER BY month;
+| Month | Visits | Pageviews | Transactions |
+| :—– | :———- | :————– |
+| 201701 | 64694 | 257708 | 713 |
+| 201702 | 62192 | 233373 | 733 |
+| 201703 | 69931 | 259522 | 993 |
 
-### 
