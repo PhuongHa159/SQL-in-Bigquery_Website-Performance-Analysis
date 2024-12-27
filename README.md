@@ -24,12 +24,12 @@ SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
  WHERE _table_suffix BETWEEN '0101' AND '0331'
  GROUP BY month
-  ORDER BY month;
+  ORDER BY month;`
 
-```markdown
-### Kết quả:
+| Tên        | Tuổi   | Nghề nghiệp  |
+|------------|--------|--------------|
+| Nguyễn A   | 28     | Lập trình viên |
+| Trần B     | 35     | Kế toán      |
+| Lê C       | 42     | Giám đốc     |
 
-| id  | name        | created_at          |
-|-----|-------------|---------------------|
-| 1   | John Doe    | 2024-12-25 10:00:00 |
-| 2   | Jane Smith  | 2024-12-24 15:30:00 |
+
