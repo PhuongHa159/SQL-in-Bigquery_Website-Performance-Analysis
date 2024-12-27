@@ -25,8 +25,24 @@ SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
  WHERE _table_suffix BETWEEN '0101' AND '0331'
  GROUP BY month
   ORDER BY month;
+
+
+
+
+
+
+
+
 ### Giải thích:
-- **Khối mã (code block)**: Câu lệnh SQL được bao trong một khối mã, giúp mã dễ đọc và rõ ràng.
-- **Văn bản giải thích**: Sau khối mã, bạn có thể viết văn bản giải thích về kết quả của câu lệnh SQL và mục đích sử dụng dữ liệu, tất cả dưới dạng văn bản bình thường.
+1. **Khối mã (code block)**:
+   - Bạn dùng ba dấu nháy ngược (```) để bao quanh câu lệnh SQL, giúp câu lệnh dễ đọc và phân biệt với phần văn bản giải thích.
+   
+2. **Văn bản giải thích**:
+   - Sau khối mã SQL, bạn viết văn bản giải thích về câu lệnh SQL và kết quả mà nó trả về. Văn bản này sẽ được hiển thị bình thường và không bị dính vào khối mã.
+
+Kết quả sẽ trông như thế này:
+1. Câu lệnh SQL sẽ được hiển thị dưới dạng mã.
+2. Đoạn văn giải thích sẽ xuất hiện bên dưới khối mã, không bị bao quanh trong dấu ba dấu nháy ngược.
+
 
 
