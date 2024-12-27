@@ -14,3 +14,8 @@ Discount Strategy Assessment: Analyzed seasonal discount costs across product su
 Customer Retention Analysis: Calculated retention rates for successfully shipped orders using cohort analysis.
 Inventory Management: Examined stock level trends, month-over-month changes, and stock-to-sales ratios.
 Order Status Monitoring: Quantified pending orders and their value to assess fulfillment efficiency.
+## IV. Exploring the Dataset
+### Query 01: calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
+![]<img width="400" alt="image" src="https://github.com/user-attachments/assets/0e539a58-6954-492d-9c81-c7c45e7e64a4" />
+
+### 
