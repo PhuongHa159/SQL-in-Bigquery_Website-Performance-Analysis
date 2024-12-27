@@ -25,6 +25,7 @@ SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
  WHERE _table_suffix BETWEEN '0101' AND '0331'
  GROUP BY month
   ORDER BY month;
+
 | Month | Visits | Pageviews | Transactions |
 | :—– | :———- | :————– |
 | 201701 | 64694 | 257708 | 713 |
