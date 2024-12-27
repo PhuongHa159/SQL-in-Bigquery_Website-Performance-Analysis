@@ -24,7 +24,8 @@ SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
  WHERE _table_suffix BETWEEN '0101' AND '0331'
  GROUP BY month
-  ORDER BY month;`
+  ORDER BY month;
+```sql
 
 | Tên        | Tuổi   | Nghề nghiệp  |
 |------------|--------|--------------|
