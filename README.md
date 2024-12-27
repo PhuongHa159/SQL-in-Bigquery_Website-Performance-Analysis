@@ -16,6 +16,13 @@ Inventory Management: Examined stock level trends, month-over-month changes, and
 Order Status Monitoring: Quantified pending orders and their value to assess fulfillment efficiency.
 ## IV. Exploring the Dataset
 ### Query 01: calculate total visit, pageview, transaction for Jan, Feb and March 2017 (order by month)
-<img width="400" alt="image" src="https://github.com/user-attachments/assets/0e539a58-6954-492d-9c81-c7c45e7e64a4" />
+SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS month,
+  SUM(totals.visits) AS visits,
+  SUM(totals.pageviews) AS pageviews ,
+  SUM(totals.transactions) AS transactions 
+ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
+ WHERE _table_suffix BETWEEN '0101' AND '0331'
+ GROUP BY month
+  ORDER BY month;
 
 ### 
