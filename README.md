@@ -25,15 +25,3 @@ SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
  WHERE _table_suffix BETWEEN '0101' AND '0331'
  GROUP BY month
   ORDER BY month;
-
-```markdown
-```sql
-SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
-  SUM(totals.visits) AS Visits,
-  SUM(totals.pageviews) AS Pageviews ,
-  SUM(totals.transactions) AS Transactions 
- FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
- WHERE _table_suffix BETWEEN '0101' AND '0331'
- GROUP BY month
-  ORDER BY month;
-
