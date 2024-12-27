@@ -26,9 +26,14 @@ SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
  GROUP BY month
   ORDER BY month;
 
-| Month | Visits | Pageviews | Transactions |
-| :—– | :———- | :————– |
-| 201701 | 64694 | 257708 | 713 |
-| 201702 | 62192 | 233373 | 733 |
-| 201703 | 69931 | 259522 | 993 |
+```markdown
+```sql
+SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
+  SUM(totals.visits) AS Visits,
+  SUM(totals.pageviews) AS Pageviews ,
+  SUM(totals.transactions) AS Transactions 
+ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
+ WHERE _table_suffix BETWEEN '0101' AND '0331'
+ GROUP BY month
+  ORDER BY month;
 
