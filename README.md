@@ -32,4 +32,29 @@ SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
 | 201702 | 62192  | 233373    | 733          |
 | 201703 | 69931  | 259522    | 993          |
 
+In Q1 2017, March saw a significant spike across all aspects such as visits, pageviews, and transactions, indicating an improvement in conversion rates or that conversion rates were influenced by seasonal effects.
+
+### Query 02: Bounce rate per traffic source in July 2017 (Bounce_rate = num_bounce/total_visit)
+```sql
+SELECT trafficSource.source,
+  SUM(totals.visits) AS total_visits,
+  SUM(totals.bounces) AS total_no_of_bounces,
+  FORMAT('%.3f',100*(SUM(totals.bounces)/SUM(totals.visits))) AS bounce_rate
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+GROUP BY trafficSource.source
+ORDER BY total_visits DESC;
+```
+| Row | source                | total_visits | total_no_of_bounces | bounce_rate |
+|-----|-----------------------|--------------|---------------------|-------------|
+| 1   | google                | 38400        | 19798               | 51.557      |
+| 2   | (direct)              | 19891        | 8606                | 43.266      |
+| 3   | youtube.com           | 6351         | 4238                | 66.730      |
+| 4   | analytics.google.com  | 1972         | 1064                | 53.955      |
+| 5   | Partners              | 1788         | 936                 | 52.349      |
+| 6   | m.facebook.com        | 669          | 430                 | 64.275      |
+| 7   | google.com            | 368          | 183                 | 49.728      |
+| 8   | dfa                   | 302          | 124                 | 41.060      |
+| 9   | sites.google.com      | 230          | 97                  | 42.174      |
+| 10  | facebook.com          | 191          | 102                 | 53.403      |
+
 
