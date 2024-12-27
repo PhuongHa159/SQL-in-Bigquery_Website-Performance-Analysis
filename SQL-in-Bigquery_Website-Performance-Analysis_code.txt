@@ -1,0 +1,147 @@
+--q1
+SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS month,
+  SUM(totals.visits) AS visits,
+  SUM(totals.pageviews) AS pageviews ,
+  SUM(totals.transactions) AS transactions 
+ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
+ WHERE _table_suffix BETWEEN '0101' AND '0331'
+ GROUP BY month
+  ORDER BY month;
+--q2
+SELECT trafficSource.source,
+SUM(totals.visits) AS total_visits,
+SUM(totals.bounces) AS total_no_of_bounces,
+FORMAT('%.3f',100*(SUM(totals.bounces)/SUM(totals.visits))) AS bounce_rate
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`
+GROUP BY trafficSource.source
+ORDER BY total_visits DESC;
+--q3
+WITH month_data AS( -- tính revenue theo month
+SELECT 'Month' as time_type,
+  FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date)) AS time,
+  trafficSource.source,
+  FORMAT('%.4f',SUM(product.productRevenue)/1000000) AS revenue,
+FROM 
+  `bigquery-public-data.google_analytics_sample.ga_sessions_201706*`,
+  UNNEST(hits) AS hits,
+  UNNEST(hits.product) AS product
+  WHERE product.productRevenue IS NOT NULL
+  GROUP BY time,trafficSource.source),
+
+ week_data AS( -- tính revenue theo week
+  SELECT 'Week' as time_type,
+  FORMAT_DATE('%Y%W', PARSE_DATE('%Y%m%d', date)) AS time,
+  trafficSource.source,
+  FORMAT('%.4f',SUM(product.productRevenue)/1000000) AS revenue,
+FROM 
+  `bigquery-public-data.google_analytics_sample.ga_sessions_201706*`,
+  UNNEST(hits) AS hits,
+  UNNEST(hits.product) AS product
+  WHERE product.productRevenue IS NOT NULL
+  GROUP BY time,trafficSource.source)
+
+  SELECT *
+  FROM month_data
+  UNION ALL 
+  SELECT *
+  FROM week_data
+  ORDER BY source,time_type,time;
+  --q4
+  WITH avg_pageviews_purchase AS(-- tính tỷ lệ purchase
+  SELECT DISTINCT(FORMAT_DATE('%Y%m',PARSE_DATE('%Y%m%d',date))) AS month
+  ,ROUND(SUM(totals.pageviews)/COUNT(DISTINCT fullVisitorId),8) AS avg_pageviews_purchase
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`,
+  UNNEST(hits)hits,
+  UNNEST(hits.product)product
+  WHERE _table_suffix BETWEEN '0601' AND '0731'
+  AND totals.transactions >=1 
+  AND product.productRevenue IS NOT NULL
+  GROUP BY month
+  ORDER BY month),
+
+avg_pageviews_no_purchase AS( -- tính tỷ lệ no purchase
+  SELECT DISTINCT(FORMAT_DATE('%Y%m',PARSE_DATE('%Y%m%d',date))) AS month
+  ,ROUND(SUM(totals.pageviews)/COUNT(DISTINCT fullVisitorId),7) AS avg_pageviews_no_purchase
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`,
+  UNNEST(hits)hits,
+  UNNEST(hits.product)product
+  WHERE _table_suffix BETWEEN '0601' AND '0731'
+  AND totals.transactions IS NULL
+  AND product.productRevenue IS NULL
+  GROUP BY month
+  ORDER BY month)
+
+  SELECT a.month
+  ,a.avg_pageviews_purchase
+  ,a_n.avg_pageviews_no_purchase
+  FROM avg_pageviews_purchase AS a
+  FULL JOIN avg_pageviews_no_purchase AS a_n
+  ON a.month = a_n.month;
+  --q5
+ SELECT FORMAT_DATE('%Y%m',PARSE_DATE('%Y%m%d',date)) AS month
+,ROUND(SUM(totals.transactions)/COUNT (DISTINCT fullVisitorId),9) AS Avg_total_transactions_per_user
+ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`,
+  UNNEST(hits)hits,
+  UNNEST(hits.product)product
+  WHERE totals.transactions >=1
+  AND productRevenue IS NOT NULL
+ GROUP BY month;
+ --q6
+ SELECT FORMAT_DATE('%Y%m',PARSE_DATE('%Y%m%d',date)) AS month
+,ROUND((SUM(productRevenue)/COUNT(CASE WHEN totals.visits =1 THEN totals.visits END))/1000000,2) AS avg_revenue_by_user_per_visit
+ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`,
+  UNNEST(hits)hits,
+  UNNEST(hits.product)product
+  WHERE totals.transactions IS NOT NULL
+  AND productRevenue IS NOT NULL
+ GROUP BY month;
+ --q7
+WITH raw_data AS( -- tìm ds người mua YouTube Men's Vintage Henley
+SELECT DISTINCT fullVisitorId AS user
+,v2ProductName AS product_name
+ FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`,
+ UNNEST(hits)hits,
+ UNNEST(hits.product)product
+WHERE v2ProductName="YouTube Men's Vintage Henley"
+AND productRevenue IS NOT NULL)
+
+SELECT DISTINCT v2ProductName AS other_purchased_products
+,SUM(productQuantity) AS quantity
+FROM `bigquery-public-data.google_analytics_sample.ga_sessions_201707*`,
+UNNEST(hits)hits,
+ UNNEST(hits.product)product
+INNER JOIN raw_data AS b
+ON fullVisitorId =b.user
+WHERE productRevenue IS NOT NULL
+AND v2ProductName <>"YouTube Men's Vintage Henley"
+GROUP BY v2ProductName
+ORDER BY quantity DESC;
+--q8
+ WITH raw_data AS( -- tìm num_product_view,num_addtocart,num_purchase
+  SELECT DISTINCT FORMAT_DATE('%Y%m',PARSE_DATE('%Y%m%d',date)) AS month
+  ,COUNT(CASE WHEN eCommerceAction.action_type ='2' THEN 1 END) AS num_product_view
+  ,COUNT(CASE WHEN eCommerceAction.action_type ='3' THEN 1 END) AS num_addtocart
+  ,COUNT(CASE WHEN eCommerceAction.action_type ='6' AND productRevenue IS NOT NULL THEN 1 END) AS num_purchase
+  FROM `bigquery-public-data.google_analytics_sample.ga_sessions_2017*`
+  ,UNNEST(hits)hits
+  ,UNNEST(hits.product)product
+  WHERE _table_suffix BETWEEN '0101' AND '0331'
+  GROUP BY month
+  ORDER BY month)
+
+  SELECT month
+  ,num_product_view
+  ,num_addtocart
+  ,num_purchase
+  ,ROUND(100*(num_addtocart/num_product_view),2) AS add_to_cart_rate
+  ,ROUND(100*(num_purchase/num_product_view),2) AS purchase_rate
+  FROM raw_data
+
+
+
+
+
+
+
+
+
