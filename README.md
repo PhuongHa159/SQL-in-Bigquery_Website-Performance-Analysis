@@ -26,11 +26,11 @@ SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
  GROUP BY month
   ORDER BY month;
 ```
-| Month | Visits | Pageviews | Transactions
-| :—– | :———- | :————– |
-| 201701 | 64694 | 257708 | 713
-| 201702 | 62192 | 233373 | 733
-| 201703 | 69931 | 259522 | 993
+| Month | Visits | Pageviews | Transactions |
+| :—– | :———- | :————– | :————– |
+| 201701 | 64694 | 257708 | 713 |
+| 201702 | 62192 | 233373 | 733 |
+| 201703 | 69931 | 259522 | 993 |
 
 
 
