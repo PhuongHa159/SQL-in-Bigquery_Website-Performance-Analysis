@@ -26,29 +26,10 @@ SELECT DISTINCT(FORMAT_DATE('%Y%m', PARSE_DATE('%Y%m%d', date))) AS Month,
  GROUP BY month
   ORDER BY month;
 ```
-| Month | Visits | Pageviews | Transactions |
-| :—– | :———- | :————– | :————– |
-| 201701 | 64694 | 257708 | 713 |
-| 201702 | 62192 | 233373 | 733 |
-| 201703 | 69931 | 259522 | 993 |
-
-
-
-
-
-
-
-
-### Giải thích:
-1. **Khối mã (code block)**:
-   - Bạn dùng ba dấu nháy ngược (```) để bao quanh câu lệnh SQL, giúp câu lệnh dễ đọc và phân biệt với phần văn bản giải thích.
-   
-2. **Văn bản giải thích**:
-   - Sau khối mã SQL, bạn viết văn bản giải thích về câu lệnh SQL và kết quả mà nó trả về. Văn bản này sẽ được hiển thị bình thường và không bị dính vào khối mã.
-
-Kết quả sẽ trông như thế này:
-1. Câu lệnh SQL sẽ được hiển thị dưới dạng mã.
-2. Đoạn văn giải thích sẽ xuất hiện bên dưới khối mã, không bị bao quanh trong dấu ba dấu nháy ngược.
-
+| Month  | Visits | Pageviews | Transactions |
+|--------|--------|-----------|--------------|
+| 201701 | 64694  | 257708    | 713          |
+| 201702 | 62192  | 233373    | 733          |
+| 201703 | 69931  | 259522    | 993          |
 
 
