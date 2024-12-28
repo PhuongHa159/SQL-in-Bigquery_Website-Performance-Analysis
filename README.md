@@ -206,15 +206,13 @@ ORDER BY quantity DESC;
 | Google Sunglasses | 20 |
 | Google Women's Vintage Hero Tee Black | 7 |
 | SPF-15 Slim & Slender Lip Balm | 6 |
-| Google Women's Short Sleeve Hero Tee Red
-  Heather | 4 |
+| Google Women's Short Sleeve Hero Tee Red Heather | 4 |
 | YouTube Men's Fleece Hoodie Black | 3 |
-| Google Men's Short Sleeve Badge Tee
-  Charcoal | 3 |
-| YouTube Twill Cap | 2 |
+| Google Men's Short Sleeve Badge Tee Charcoal | 3 |
+| 22 oz YouTube Bottle Infuser | 2 |
+| Android Men's Vintage Henley | 2 |
 | Recycled Mouse Pad | 2 |
-| Red Shine 15 oz Mug | 2 |
-| Google Doodle Decal | 2 |
+| YouTube Twill Cap | 2 |
 
 Customers who purchased the YouTube Men's Vintage Henley also preferred Google-branded items, especially sunglasses. The business could bundle these two products together to boost revenue growth.
 
